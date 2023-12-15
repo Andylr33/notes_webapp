@@ -9,7 +9,7 @@ def home():
 
 @app.route("/login")
 def login():
-    return "<p> Login <p>"
+    return render_template("login.html")
 
 @app.route("/logout")
 def logout():
@@ -17,7 +17,7 @@ def logout():
 
 @app.route("/sign-up")
 def sign_up():
-    return "<p> Sign Up <p>"
+    return render_template("sign_up.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
