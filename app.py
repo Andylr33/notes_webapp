@@ -28,13 +28,13 @@ def sign_up():
 
         # verify information
         if len(email) < 4:
-            flash('Email must be greater than 3 characters.', category='error')
+            flash('Email must be greater than 3 characters.', category='danger')
         elif len(full_name) < 4:
-            flash('Full name must be greater than 3 characters.', category='error')
+            flash('Full name must be greater than 3 characters.', category='danger')
         elif password1 != password2:
-            flash('Passwords do not match.', category='error')
+            flash('Passwords do not match.', category='danger')
         elif len(password1) < 7:
-            flash('Password must be at least 7 characters.', category='error')
+            flash('Password must be at least 7 characters.', category='danger')
         else:
             # add user to database
             flash('Your account was created!', category='success')
