@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, flash
-# add flask_login library
+import os
+# from flask_login import UserMixin
+# from flask_session import Session
 
 app = Flask(__name__)
 
@@ -43,7 +45,12 @@ def sign_up():
 # Configure session to use filesystem (instead of signed cookies)
 # app.config["SESSION_PERMANENT"] = False
 # app.config["SESSION_TYPE"] = "filesystem"
-app.secret_key = 'super secret key'
+app.secret_key = os.environ.get('SECRET_KEY')
+
+# Configure session to use filesystem (instead of signed cookies)
+# app.config["SESSION_PERMANENT"] = False
+# app.config["SESSION_TYPE"] = "filesystem"
+# Session(app)
 
 if __name__ == '__main__':
     app.run(debug=True)
