@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, flash, redirect, session
+from flask import Flask, render_template, request, flash, redirect, session, jsonify
 import os
 from werkzeug.security import check_password_hash, generate_password_hash
-from database import create_user_account, add_note, check_if_user_exists, get_user_info
+from database import create_user_account, add_note, check_if_user_exists, get_user_info, get_notes
 from flask_login import login_user, login_required, logout_user, current_user
 from flask_session import Session
 from helpers import login_required
+import json
 
 app = Flask(__name__)
 
@@ -18,10 +19,24 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 @login_required
 def home():
-    return render_template("home.html")
+    user_id = session["user_id"]
+    notes = get_notes(user_id)
+    if request.method == 'POST':
+        note = request.form.get('note')
+        
+        if len(note) < 1:
+            flash("Note is too short!", category="danger")
+        else:
+            add_note(user_id, note)
+
+            # update the notes a specific user has once adding a new note
+            notes = get_notes(user_id)
+            flash("Note added!", category="succes")
+
+    return render_template("home.html", notes=notes)
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -94,6 +109,18 @@ def sign_up():
 
             return redirect("/")
     return render_template("sign_up.html")
+
+@app.route('/delete-note', methods=['POST'])
+def delete_note():
+    note = json.loads(request.data)
+    noteId = data['noteId']
+    note = Note.query.get(noteId)
+
+@app.route('/api/notes', methods=['GET', 'POST'])
+def jsonify_notes():
+    user_id = session["user_id"]
+    notes = get_notes(user_id)
+    return jsonify(notes)
 
 # Configure session to use filesystem (instead of signed cookies)
 # app.config["SESSION_PERMANENT"] = False
