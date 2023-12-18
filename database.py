@@ -38,8 +38,29 @@ def get_user_info(data):
                 return dict(rows[0]._mapping)
 
 
-def add_note(user_id):
-    pass
+def add_note(user_id, note):
+    with engine.connect() as conn:
+        query = "INSERT INTO notes (user_id, note_data) VALUES (:user_id, :note_data);"
+        
+        conn.execute(text(query), 
+                        {"user_id": user_id, "note_data": note})
+        conn.execute(text("commit;"))                   # MUST COMMIT TO SEE CHANGES IN DATABASE!!
 
-def display_notes():
+def get_notes(user_id):
+    with engine.connect() as conn:
+        query = "SELECT * FROM notes WHERE user_id = :user_id;"
+        
+        result = conn.execute(text(query), 
+                        {"user_id": user_id})
+        conn.execute(text("commit;"))                   # MUST COMMIT TO SEE CHANGES IN DATABASE!!
+        
+        rows = result.all()
+
+        notes = [] # list of dictionaries
+
+        for row in rows:
+            notes.append(dict(row._mapping)) # add dictionary to list
+        return notes
+
+def delete_note():
     pass
