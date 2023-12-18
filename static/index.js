@@ -8,7 +8,7 @@ function deleteNote() {
 }
 
 function showNote(noteId) {
-    let note_id = noteId;
+    //let note_id = noteId;
 
-    console.log(note_id);
+    console.log(noteId);
 }

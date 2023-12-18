@@ -6,11 +6,15 @@
     <h1 align="center">Notes</h1>
     <ul class="list-group list-group-flush" id="notes">
         {% for note in notes %}
-            <li class="list-group-item">{{ note.note_data }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="deleteNote()"></button>
+
+            
+            <li class="list-group-item alert alert-dismissible fade show" role="alert">{{ note.note_data }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="showNote('{{ note.id}}')"></button>
             </li>
+
         {% endfor %}
     </ul>
+    <br>
     <form method="POST">
         <textarea name="note" id="note" class="form-control"></textarea>
         <br>
