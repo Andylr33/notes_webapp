@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 import os
 from werkzeug.security import check_password_hash, generate_password_hash
-from database import create_user_account, add_note, check_if_user_exists, get_user_info, get_notes
+from database import *
 from flask_login import login_user, login_required, logout_user, current_user
 from flask_session import Session
 from helpers import login_required
@@ -112,9 +112,12 @@ def sign_up():
 
 @app.route('/delete-note', methods=['POST'])
 def delete_note():
+    user_id = session["user_id"]
     note = json.loads(request.data)
-    noteId = data['noteId']
-    note = Note.query.get(noteId)
+    noteId = note['noteId']
+    remove_note(user_id, noteId)
+    print(f"Note ID is: {noteId}")
+    return jsonify({})
 
 @app.route('/api/notes', methods=['GET', 'POST'])
 def jsonify_notes():

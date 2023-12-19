@@ -48,7 +48,8 @@ def add_note(user_id, note):
 
 def get_notes(user_id):
     with engine.connect() as conn:
-        query = "SELECT * FROM notes WHERE user_id = :user_id;"
+        # order notes by most recent
+        query = "SELECT * FROM notes WHERE user_id = :user_id ORDER BY note_date DESC;"
         
         result = conn.execute(text(query), 
                         {"user_id": user_id})
@@ -62,5 +63,12 @@ def get_notes(user_id):
             notes.append(dict(row._mapping)) # add dictionary to list
         return notes
 
-def delete_note():
-    pass
+def remove_note(user_id, note_id):
+    with engine.connect() as conn:
+        # order notes by most recent
+        query = "DELETE FROM notes WHERE user_id = :user_id AND id = :note_id;"
+        
+        result = conn.execute(text(query), 
+                        {"user_id": user_id, "note_id": note_id})
+        conn.execute(text("commit;"))                   # MUST COMMIT TO SEE CHANGES IN DATABASE!!
+        print(f"Note {note_id} was deleted from the database")
