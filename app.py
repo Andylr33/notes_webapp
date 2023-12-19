@@ -34,7 +34,7 @@ def home():
 
             # update the notes a specific user has once adding a new note
             notes = get_notes(user_id)
-            flash("Note added!", category="succes")
+            flash('Note added!', category='success')
 
     return render_template("home.html", notes=notes)
 
