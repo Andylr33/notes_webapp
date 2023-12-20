@@ -4,16 +4,19 @@
 
 {% block body %}
     <h1 align="center">Notes</h1>
-    <ul class="list-group list-group-flush" id="notes">
-        {% for note in notes %}
+    <div class="container">
 
+        <ul class="list-group list-group-flush" id="notes">
+            {% for note in notes %}
+            <div>
+                <li class="list-group-item alert alert-dismissible fade show" id='{{ note.id}}' role="alert" contenteditable="true">{{ note.note_data }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="deleteNote('{{ note.id}}')"></button>
+                </li>
+            </div>
             
-            <li class="list-group-item alert alert-dismissible fade show" role="alert">{{ note.note_data }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="deleteNote('{{ note.id}}')"></button>
-            </li>
-
-        {% endfor %}
-    </ul>
+            {% endfor %}
+        </ul>
+    </div>
     
     <form method="POST">
         <textarea name="note" id="note" class="form-control"></textarea>

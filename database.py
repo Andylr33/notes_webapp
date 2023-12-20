@@ -72,3 +72,13 @@ def remove_note(user_id, note_id):
                         {"user_id": user_id, "note_id": note_id})
         conn.execute(text("commit;"))                   # MUST COMMIT TO SEE CHANGES IN DATABASE!!
         print(f"Note {note_id} was deleted from the database")
+
+def update_note(user_id, note_id, note_data):
+    with engine.connect() as conn:
+        # order notes by most recent
+        query = "UPDATE notes SET note_data = :note_data WHERE user_id = :user_id AND id = :note_id;"
+        
+        result = conn.execute(text(query), 
+                        {"note_data": note_data, "user_id": user_id, "note_id": note_id})
+        conn.execute(text("commit;"))                   # MUST COMMIT TO SEE CHANGES IN DATABASE!!
+        print(f"Note {note_id} was updated from the database")

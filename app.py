@@ -119,6 +119,16 @@ def delete_note():
     print(f"Note ID is: {noteId}")
     return jsonify({})
 
+@app.route('/edit-note', methods=['POST'])
+def edit_note():
+    user_id = session["user_id"]
+    note = json.loads(request.data)
+    noteId = note['noteId']
+    note_data = note['note_data']
+    update_note(user_id, noteId, note_data)
+    print(f"Note ID is: {noteId} \n and Note data is: {note_data}")
+    return jsonify({})
+
 @app.route('/api/notes', methods=['GET', 'POST'])
 def jsonify_notes():
     user_id = session["user_id"]
