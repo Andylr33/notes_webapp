@@ -17,7 +17,7 @@ listItems.forEach(function(item) {
         }).then((_res) => {
             window.location.href = "/";
         });
-       console.log("The id is: ", this.id); // this returns onmouseout li's id
+       //console.log("The id is: ", this.id); // this returns onmouseout li's id
     }
   });
   
